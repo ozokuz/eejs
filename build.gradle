@@ -1,0 +1,149 @@
+plugins {
+    alias libs.plugins.forge.gradle
+    alias libs.plugins.mixin.gradle
+    alias libs.plugins.librarian
+}
+
+version = '1.0'
+group = 'ozokuz.eejs'
+archivesBaseName = 'eejs'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+mixin {
+    add sourceSets.main, 'eejs.refmap.json'
+    config 'eejs.mixins.json'
+}
+
+minecraft {
+    mappings channel: 'parchment', version: "${libs.versions.parchment.get()}-${libs.versions.minecraft.get()}"
+
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', 'eejs'
+
+            mods {
+                eejs {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', 'eejs'
+
+            mods {
+                eejs {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            property 'forge.enabledGameTestNamespaces', 'eejs'
+
+            mods {
+                eejs {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'REGISTRIES'
+
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', 'eejs', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+
+            mods {
+                eejs {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven { url 'https://www.jitpack.io' } // MixinExtras
+    maven {
+        // Architectury API
+        url = "https://maven.architectury.dev"
+        content { includeGroup "dev.architectury" }
+    }
+    maven {
+        // KubeJS, Rhino & Emendatus Enigmatica
+        url = "https://maven.saps.dev/minecraft"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "com.ridanisaurus"
+        }
+    }
+}
+
+dependencies {
+    // Forge
+    minecraft libs.forge
+
+    // Mixins
+    annotationProcessor(variantOf(libs.mixin) { classifier 'processor' })
+
+    // KubeJs
+    implementation fg.deobf(libs.kubejs.get())
+    implementation fg.deobf(libs.rhino.get())
+    implementation fg.deobf(libs.architectury.get())
+
+    // EE
+    compileOnly fg.deobf(libs.emendatus.get())
+    runtimeOnly fg.deobf(libs.emendatus.get())
+}
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "eejs",
+                "Specification-Vendor"    : "ozokuz",
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : "ozokuz",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

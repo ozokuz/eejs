@@ -1,0 +1,37 @@
+modLoader = "javafml"
+loaderVersion = "[43,)"
+license = "All rights reserved"
+[[mods]]
+modId = "eejs"
+version = "${file.jarVersion}"
+displayName = "EEJS"
+logoFile = "examplemod.png"
+credits = "IDK"
+authors = "Ozoku"
+description = '''
+Add custom Emendatus Enigmatica parts with KubeJS
+'''
+[[dependencies.eejs]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.eejs]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19.2,1.19.3)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.eejs]]
+modId = "kubejs"
+mandatory = true
+versionRange = "[1902.6.1-build.352,)"
+ordering = "AFTER"
+side = "BOTH"
+[[dependencies.eejs]]
+modId = "emendatusenigmatica"
+mandatory = true
+versionRange = "[1.19.2-2.1.5,)"
+ordering = "AFTER"
+side = "BOTH"

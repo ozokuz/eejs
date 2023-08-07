@@ -1,0 +1,27 @@
+[versions]
+minecraft = "1.19.2"
+parchment = "2022.11.27"
+forge = "1.19.2-43.2.21"
+mixin = "0.8.5"
+
+kubejs = "1902.6.1-build.352"
+rhino = "1902.2.2-build.268"
+architectury = "6.5.85"
+
+emendatus = "2.1.5-build.61+mc1.19.2"
+
+[libraries]
+forge = { module = "net.minecraftforge:forge", version.ref = "forge" }
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin" }
+
+kubejs = { module = "dev.latvian.mods:kubejs-forge", version.ref = "kubejs" }
+rhino = { module = "dev.latvian.mods:rhino-forge", version.ref = "rhino" }
+architectury = { module = "dev.architectury:architectury-forge", version.ref = "architectury" }
+
+emendatus = { module = "com.ridanisaurus:emendatusenigmatica", version.ref = "emendatus" }
+
+[plugins]
+forge_gradle = { id = "net.minecraftforge.gradle", version = "5.1.77" }
+mixin_gradle = { id = "org.spongepowered.mixin", version = "0.7.38" }
+librarian = { id = "org.parchmentmc.librarian.forgegradle", version = "1.2.0" }
+

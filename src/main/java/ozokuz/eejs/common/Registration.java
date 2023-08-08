@@ -23,19 +23,21 @@ public class Registration {
         parts.put(part.getProcessedType(), part);
     }
 
-    public static void registerParts(MaterialModel material) {
-        for (var partEntry : parts.entrySet()) {
-            var type = partEntry.getKey();
-            var part = partEntry.getValue();
-            List<String> processedType = material.getProcessedTypes();
-            if (!processedType.contains(type)) continue;
+    public static void registerParts(List<MaterialModel> materialModels) {
+        for (var material : materialModels) {
+            for (var partEntry : parts.entrySet()) {
+                var type = partEntry.getKey();
+                var part = partEntry.getValue();
+                List<String> processedType = material.getProcessedTypes();
+                if (!processedType.contains(type)) continue;
 
-            var partMap = getOrCreatePartMap(type);
+                var partMap = getOrCreatePartMap(type);
 
-            if (material.getProperties().isBurnable()) {
-                partMap.put(material.getId(), ITEMS.register(part.getId(material), () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
-            } else {
-                partMap.put(material.getId(), ITEMS.register(part.getId(material), () -> new BasicItem(material)));
+                if (material.getProperties().isBurnable()) {
+                    partMap.put(material.getId(), ITEMS.register(part.getId(material), () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
+                } else {
+                    partMap.put(material.getId(), ITEMS.register(part.getId(material), () -> new BasicItem(material)));
+                }
             }
         }
     }

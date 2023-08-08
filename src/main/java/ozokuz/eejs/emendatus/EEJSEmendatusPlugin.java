@@ -20,9 +20,7 @@ public class EEJSEmendatusPlugin implements IEmendatusPlugin {
 
     @Override
     public void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {
-        for (MaterialModel material : materialModels) {
-            Registration.registerParts(material);
-        }
+        Registration.registerParts(materialModels);
     }
 
     @Override

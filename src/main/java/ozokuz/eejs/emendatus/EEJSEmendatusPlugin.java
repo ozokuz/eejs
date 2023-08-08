@@ -13,9 +13,21 @@ import java.util.List;
 
 @EmendatusPluginReference(modid = EEJS.MOD_ID, name = "config")
 public class EEJSEmendatusPlugin implements IEmendatusPlugin {
+    public static EEJSEmendatusPlugin INSTANCE;
+    public EEJSEmendatusPlugin() {
+        INSTANCE = this;
+    }
+
     @Override
     public void load(EmendatusDataRegistry registry) {
-
+        while (!EEJS.PARTS_REGISTERED) {
+            try {
+                synchronized (this) {
+                    wait();
+                }
+            } catch (InterruptedException e) {
+            }
+        }
     }
 
     @Override

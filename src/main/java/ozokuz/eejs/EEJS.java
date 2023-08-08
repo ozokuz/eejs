@@ -11,6 +11,7 @@ import ozokuz.eejs.common.Registration;
 public class EEJS {
     public static final String MOD_ID = "eejs";
     public static final Logger LOGGER = LogUtils.getLogger();
+    public static boolean PARTS_REGISTERED = false;
 
     public static ResourceLocation res(String path) {
         return new ResourceLocation(MOD_ID, path);

@@ -41,11 +41,7 @@ public class Registration {
     }
 
     private static Map<String, RegistryObject<Item>> getOrCreatePartMap(String part) {
-        if (!itemMap.containsKey(part)) {
-            itemMap.put(part, new HashMap<>());
-        }
-
-        return itemMap.get(part);
+        return itemMap.computeIfAbsent(part, k -> new HashMap<>());
     }
 
     public static void register(IEventBus eventBus) {

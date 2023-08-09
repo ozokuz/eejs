@@ -12,9 +12,17 @@ Then in a KubeJS startup script you can use the new `EmendatusEvents.partRegistr
 
 ```js
 EmendatusEvents.partRegistry(event => {
-  // create(processedType: string, partIdProvider: (material: string) => string, tagName: string, partLocalizedNameProvider: (material: string) => string, textureLayers: number)
-  event.create('crushed_ore', material => `crushed_${material}_ore`, 'crushed_ores', material => `Crushed ${material} Ore`, 5);
-})
+  /*
+    create(
+  	  processedType: string, partIdProvider: (material: string) => string,
+      tagName: string, partLocalizedNameProvider: (material: string) => string, textureLayers: number
+    )
+  */
+  event.create(
+    'crushed_ore', material => `crushed_${material}_ore`,
+    'crushed_ores', material => `Crushed ${material} Ore`, 5
+  );
+});
 ```
 
-After you've created the processed type you can just add it to your emendatus enigmatica materials' processed types list.
+After you've created the processed type you can just add it to your Emendatus Enigmatica materials' processed types list.
